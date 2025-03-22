@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %}{{ task.title }} - Details{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Tarjeta principal -->
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title mb-0">{{ task.title }}</h2>
+                    <small class="text-light">
+                        Created: {{ task.created|date:'M d, Y H:i' }}
+                        {% if task.datecompleted %}
+                        | Completed: {{ task.datecompleted|date:'M d, Y H:i' }}
+                        {% endif %}
+                    </small>
+                </div>
+
+                <div class="card-body">
+                    <!-- Mensajes de error/éxito -->
+                    {% if error %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                    {% endif %}
+
+                    <!-- Formulario de Edición -->
+                    <form method="POST" class="mb-4">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Title</label>
+                            {{ form.title }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            {{ form.description }}
+                        </div>
+                        
+                        <div class="form-check form-switch mb-4">
+                            {{ form.important }}
+                            <label class="form-check-label">Mark as important</label>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button class="btn btn-warning" type="submit">
+                                <i class="bi bi-pencil-square me-2"></i>
+                                Update Task
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Acciones adicionales -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        {% if not task.datecompleted %}
+                        <form action="{% url 'complete_task' task.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Mark Complete
+                            </button>
+                        </form>
+                        {% else %}
+                        <span class="badge bg-success">Completed</span>
+                        {% endif %}
+
+                        <form action="{% url 'delete_task' task.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-danger" type="submit">
+                                <i class="bi bi-trash3 me-2"></i>
+                                Delete Task
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Enlace de retroceso -->
+                <div class="card-footer bg-light">
+                    <a href="{% url 'tasks' %}" class="text-decoration-none">
+                        <i class="bi bi-arrow-left"></i>
+                        Back to Task List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

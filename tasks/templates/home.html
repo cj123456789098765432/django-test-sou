@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class= "container py-5">
+   <section class="card card-body">
+      <h1 class="display-1 text-center">Sou.AI App</h1>
+      <p class="display 1 text-center">Simplifica tus tareas y optimiza tu tiempo con nuestro asistente virtual.<br>
+      Accede a diversas funcionalidades diseñadas para facilitar tu rutina diaria.<br>
+      Organiza, planifica y ejecuta tus actividades de manera más efectiva.<br>
+      Encuentra lo que necesitas en el día en una sola app.</p>
+      <div class="text-center">
+        <a class="btn btn-primary btn-lg btn-block" onclick="window.location.href='/signin/'">
+            Signin
+        </a>
+        <a class="btn btn-primary btn-lg btn-block" onclick="window.location.href='/signup'">
+             Signout
+        </a>       
+      </div>
+   </section>
+</main>
+{% endblock %}
+
